@@ -19,7 +19,7 @@ class BookCategoryController extends AbstractController
      * @throws ParamErrorException
      */
     #[Route('/categories/{id}', name: 'delete_category', requirements: ["id"=>"\d+"], methods: 'DELETE')]
-    public function BookCategoryControl(int $id,BookCategoryService $bookCategoryService): JsonResponse
+    public function delBookCategoryById(int $id,BookCategoryService $bookCategoryService): JsonResponse
     {
         // 入参校验
         if ($id==null || $id<=0){
