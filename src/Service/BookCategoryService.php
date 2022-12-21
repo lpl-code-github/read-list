@@ -27,7 +27,7 @@ class BookCategoryService
 
 
         // 幂等性考虑 如果查询到的“分类”已经为被删除状态，直接返回true
-        if ($bookCategory->getIsDelete() == IS_DELETED) {
+        if ($bookCategory->getActive() == IS_DELETED) {
 //            $a = 1/0;
             return true;
         }

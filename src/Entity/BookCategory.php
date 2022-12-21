@@ -24,7 +24,7 @@ class BookCategory
     private ?\DateTimeInterface $updateTime = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $is_delete = null;
+    private ?int $active = null;
 
     public function getId(): ?int
     {
@@ -67,15 +67,19 @@ class BookCategory
         return $this;
     }
 
-    public function getIsDelete(): ?int
+    /**
+     * @return int|null
+     */
+    public function getActive(): ?int
     {
-        return $this->is_delete;
+        return $this->active;
     }
 
-    public function setIsDelete(int $is_delete): self
+    /**
+     * @param int|null $active
+     */
+    public function setActive(?int $active): void
     {
-        $this->is_delete = $is_delete;
-
-        return $this;
+        $this->active = $active;
     }
 }

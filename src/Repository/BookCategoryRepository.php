@@ -40,7 +40,7 @@ class BookCategoryRepository extends ServiceEntityRepository
      */
     public function remove(BookCategory $entity, bool $flush = false): bool
     {
-        $entity->setIsDelete(IS_DELETED);
+        $entity->setActive(IS_DELETED);
 
         if ($flush) {
             $this->getEntityManager()->flush();
