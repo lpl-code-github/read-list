@@ -19,7 +19,7 @@ class BookController extends AbstractController
      * @throws ParamErrorException
      */
     #[Route('/books', name: 'findBookList',methods: 'GET')]
-    public function findBookList(Request $request, BookService $bookService): Response
+    public function findBookList(Request $request, BookService $bookService): JsonResponse
     {
         // 获取参数
         $page = $request->query->getInt('page', 1);
