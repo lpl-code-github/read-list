@@ -14,16 +14,11 @@ class Book
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $categoryId = null;
-
     #[ORM\Column(length: 50)]
     private ?string $bookTitle = null;
 
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $bookAuthor = null;
-
-
 
     #[ORM\Column(nullable: true)]
     private ?int $pageNum = null;
@@ -31,13 +26,13 @@ class Book
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE,insertable:false)]
     private ?\DateTimeInterface $createTime = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true,insertable:false)]
     private ?\DateTimeInterface $updateTime = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(type: Types::SMALLINT,insertable:false)]
     private ?int $active = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -52,18 +47,6 @@ class Book
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCategoryId(): ?int
-    {
-        return $this->categoryId;
-    }
-
-    public function setCategoryId(int $categoryId): self
-    {
-        $this->categoryId = $categoryId;
-
-        return $this;
     }
 
     /**
