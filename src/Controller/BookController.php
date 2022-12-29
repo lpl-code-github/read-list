@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Book;
 use App\Service\BookService;
 use App\Util\CustomException\ParamErrorException;
 use App\Util\Result;
@@ -18,7 +19,7 @@ class BookController extends AbstractController
     /**
      * @throws ParamErrorException
      */
-    #[Route('/books', name: 'findBookList',methods: 'GET')]
+    #[Route('/books', name: 'find_book_list',methods: 'GET')]
     public function findBookList(Request $request, BookService $bookService): JsonResponse
     {
         // 获取参数
@@ -27,10 +28,10 @@ class BookController extends AbstractController
 
         // 入参校验
         if ($page<=0){
-            throw new ParamErrorException("parameter id error");
+            throw new ParamErrorException("parameter page error");
         }
         if (strlen($searchContent)>30){
-            throw new ParamErrorException("parameter id error");
+            throw new ParamErrorException("parameter searchContent error");
         }
 
         $result = new Result();
