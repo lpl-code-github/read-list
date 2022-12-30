@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Chapter;
-use App\Entity\ChapterDto;
 use App\Service\ChapterService;
 use App\Util\CustomException\NotFoundException;
 use App\Util\CustomException\ParamErrorException;
@@ -18,31 +17,6 @@ class ChapterController extends AbstractController
     /**
      * @throws ParamErrorException
      * @throws NotFoundException
-     */
-    #[Route('/chapters', name: 'save_chapter', methods: 'POST')]
-    public function saveChapter(Request $request, ChapterService $chapterService): JsonResponse
-    {
-        // 获取参数
-        try {
-            $resource = $request->toArray();
-            $chapter = new Chapter();
-            $chapter->setBookId($resource["bookId"]);
-            $chapter->setContent($resource["content"]);
-            $chapter->setChapterName($resource["chapterName"]);
-            $chapter->setSerialNo($resource["serialNo"]);
-        } catch (\Exception $e) {
-            throw new ParamErrorException('Missing parameter or parameter format is not JSON');
-        }
-
-        // 合法性校验
-
-
-        $result = new Result();
-        return $this->json($result->success($chapterService->saveChapter($chapter)));
-    }
-
-    /**
-     * @throws ParamErrorException
      */
     #[Route('/chapters', name: 'get_chapter_content', methods: 'GET')]
     public function getChapterContent(Request $request, ChapterService $chapterService): JsonResponse
@@ -82,12 +56,10 @@ class ChapterController extends AbstractController
             throw new ParamErrorException("parameter id error");
         }
         if ($bookId <= 0) {
-            throw new ParamErrorException('parameter error');
+            throw new ParamErrorException('parameter bookId error');
         }
 
         $result = new Result();
         return $this->json($result->success($chapterService->getChapterById($id,$bookId)));
     }
-
-
 }
