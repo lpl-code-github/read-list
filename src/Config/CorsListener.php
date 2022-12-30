@@ -24,14 +24,21 @@ final class CorsListener implements EventSubscriberInterface
     public function onKernelException(ExceptionEvent $event): void
     {
         $response = $event->getResponse();
+        $request = $event->getRequest();
+        $allowedOrigins  = array("http://localhost:8080","http://localhost:8081");
+        $origin = $request->headers->get("Origin");
+
         if ($response) {
-            $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
-            $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH');
-            $response->headers->set("Access-Control-Max-Age", "3600");
-            $response->headers->set("Access-Control-Allow-Credentials", "true");
-            $response->headers->set("Access-Control-Allow-Headers", "Authorization,Origin,X-Requested-With,Content-Type,Accept,content-Type,origin,x-requested-with,content-type,accept,authorization,token,id,X-Custom-Header,X-Cookie,Connection,User-Agent,Cookie,*");
-            $response->headers->set("Access-Control-Request-Headers", "Authorization,Origin, X-Requested-With,content-Type,Accept");
-            $response->headers->set("Access-Control-Expose-Headers", "*");
+            if (in_array($origin,$allowedOrigins)){
+                $response->headers->set('Access-Control-Allow-Origin', $origin);
+                $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH');
+                $response->headers->set("Access-Control-Max-Age", "3600");
+                $response->headers->set("Access-Control-Allow-Credentials", "true");
+                $response->headers->set("Access-Control-Allow-Headers", "Authorization,Origin,X-Requested-With,Content-Type,Accept,content-Type,origin,x-requested-with,content-type,accept,authorization,token,id,X-Custom-Header,X-Cookie,Connection,User-Agent,Cookie,*");
+                $response->headers->set("Access-Control-Request-Headers", "Authorization,Origin, X-Requested-With,content-Type,Accept");
+                $response->headers->set("Access-Control-Expose-Headers", "*");
+            }
+
         }
     }
 
@@ -59,14 +66,20 @@ final class CorsListener implements EventSubscriberInterface
         }
 
         $response = $event->getResponse();
+        $request = $event->getRequest();
+        $allowedOrigins  = array("http://localhost:8080","http://localhost:8081");
+        $origin = $request->headers->get("Origin");
+
         if ($response) {
-            $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
-            $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH');
-            $response->headers->set("Access-Control-Max-Age", "3600");
-            $response->headers->set("Access-Control-Allow-Credentials", "true");
-            $response->headers->set("Access-Control-Allow-Headers", "Authorization,Origin,X-Requested-With,Content-Type,Accept,content-Type,origin,x-requested-with,content-type,accept,authorization,token,id,X-Custom-Header,X-Cookie,Connection,User-Agent,Cookie,*");
-            $response->headers->set("Access-Control-Request-Headers", "Authorization,Origin, X-Requested-With,content-Type,Accept");
-            $response->headers->set("Access-Control-Expose-Headers", "*");
+            if (in_array($origin,$allowedOrigins)){
+                $response->headers->set('Access-Control-Allow-Origin', $origin);
+                $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH');
+                $response->headers->set("Access-Control-Max-Age", "3600");
+                $response->headers->set("Access-Control-Allow-Credentials", "true");
+                $response->headers->set("Access-Control-Allow-Headers", "Authorization,Origin,X-Requested-With,Content-Type,Accept,content-Type,origin,x-requested-with,content-type,accept,authorization,token,id,X-Custom-Header,X-Cookie,Connection,User-Agent,Cookie,*");
+                $response->headers->set("Access-Control-Request-Headers", "Authorization,Origin, X-Requested-With,content-Type,Accept");
+                $response->headers->set("Access-Control-Expose-Headers", "*");
+            }
         }
     }
 }
