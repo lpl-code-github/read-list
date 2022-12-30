@@ -22,13 +22,14 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    public function save(Book $entity, bool $flush = false): void
+    public function save(Book $entity, bool $flush = false): bool
     {
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+        return true;
     }
 
     public function remove(Book $entity, bool $flush = false): void
@@ -40,6 +41,19 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
+    public function updateBookPageNum(Book $entity): string|int|null|float
+    {
+        $queryBuilder = $this->createQueryBuilder('b')
+            ->update('App:Book','b')
+            ->set('b.pageNum',$entity->getPageNum())
+            ->andWhere('b.id =: id')
+            ->setParameter('id', $entity->getId())
+            ->andWhere('b.active =:active')
+            ->setParameter("active",IS_NOT_DELETED)
+            ->getQuery();
+        return  $queryBuilder->execute();
+    }
+
     /**
      * @return Paginator Returns an array of BookVo objects
      */
@@ -47,20 +61,26 @@ class BookRepository extends ServiceEntityRepository
     {
 
         $queryBuilder = $this->createQueryBuilder('b');
+        // 分页偏移量
+        $offset = ($page-1)*DEFAULT_SIZE;
+
         if ($searchContent !=""){
             $queryBuilder->andWhere('b.bookTitle LIKE :bookTitle')
                 ->setParameter('bookTitle', '%'.$searchContent.'%')
                 ->orWhere('b.bookAuthor LIKE :bookAuthor')
                 ->setParameter('bookAuthor','%'.$searchContent.'%');
         }
-
-        // 分页偏移量
-        $offset = ($page-1)*DEFAULT_SIZE;
-        $queryBuilder
+        $queryBuilder->andWhere("b.active = :active")
+            ->setParameter('active',IS_NOT_DELETED)
+            ->andWhere('b.status = :status')
+            ->setParameter("status",BOOK_VISIBLE)
             ->orderBy('b.createTime', 'DESC')
             ->setMaxResults(DEFAULT_SIZE)
             ->setFirstResult($offset)
             ->getQuery();
+
+
+//        dd($queryBuilder);
         return new Paginator($queryBuilder);
     }
 
